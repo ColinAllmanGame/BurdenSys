@@ -255,21 +255,6 @@ namespace NoStudios.Burdens
         BurdenClone cachedCloneBackup;
         public bool DispatchBurden(BurdenClone burden,BurdenInventory sender,BurdenInventory receiver)
         {
-            //this method is for the sender to operate on. the burden goes through several steps
-            //pre-remove actions and tints by sender and burden itself. (in sender's inventory)
-            //removal
-            //post-removal actions and tints, by sender and burden itself. (not in any inventory)
-
-
-            //burdens will need to have contingincies for failures. such as saving the original state, and reverting it.
-            //alternatively, each tint should have an "undo" contingency, and then undo them in reverse order
-            //IE, post removal undo, then add back to inventory with no events, then pre-removal undo.
-
-            //as another alternative, Burden dispatches may not be capable of being undone, and no potential failure situation should EVER be attempted.
-            //perhaps check against the receiver prior to tinting.
-
-            //consider doing this with a callback to confirm receipt.
-
                 //tint by sender
                 BurdenProcess senderOperation = BurdenTools.GetBurdenProcessSender(senderType);
                 BurdenClone modifiedBurden = senderOperation(burden, this, receiver);
@@ -277,7 +262,6 @@ namespace NoStudios.Burdens
                 //tint by parentburden's pre-send action while still in sender inventory
                 modifiedBurden.parentBurden.BurdenSendAction(burden,sender, receiver);
 
-            //check remove request on burden. if burden confirms removal, do so here.
                 d_heldBurdens[modifiedBurden.category].Remove(modifiedBurden);
             
                 modifiedBurden.parentBurden.OwnerChangeNotice(burden, sender, false);
@@ -288,16 +272,27 @@ namespace NoStudios.Burdens
                 return true;
         }
 
-        void AddBurdenToInventory(Burden newBurden)
+        public void DissolveBurden(BurdenClone burden,bool isSilent)
         {
-            Debug.LogWarning("method iterated on, please check");
-            //heldBurdens.Add(newBurden);
-        }
+            if (d_heldBurdens.ContainsKey(burden.category))
+            {
+                if(!isSilent)
+                {
+                    burden.parentBurden.BurdenPreDissolve(this);
+                }
+                d_heldBurdens[burden.category].Remove(burden);
 
-        void RemoveBurdenFromInventory(Burden burden)
-        {
-            Debug.LogWarning("method iterated on, please check");
-            //heldBurdens.Remove(burden);
+                BurdensCollectionChanged();
+
+                if (!isSilent)
+                {
+                    burden.parentBurden.BurdenPostDissolve(this);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("no burden in the requested category to dissolve : " + burden.category.ToString());
+            }
         }
     }
 }

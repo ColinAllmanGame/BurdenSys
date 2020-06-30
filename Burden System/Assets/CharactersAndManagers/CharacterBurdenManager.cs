@@ -71,8 +71,10 @@ public class CharacterBurdenManager : MonoBehaviour
         }
     }
 
-    public bool TryAddBurden(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
+    public bool AddBurden(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
     {
+        //pre-validated add burden method, used on dynamic transactions
+
         if (sender == null)
         {
             //this is a scripted send from a world source, use a more direct override. do not apply sender effects.
@@ -86,6 +88,31 @@ public class CharacterBurdenManager : MonoBehaviour
         }
         //the sender may not be another container.
         return true;
+    }
+
+    public bool AddBurdenWorldSource(BurdenClone burden,CharacterBurdenManager sender,CharacterBurdenManager receiver,bool overrideValidation=false)
+    {
+        //accessed by world sources to add a burden to the character.
+        //May or may not validate prior (some systems may necessitate overrides)
+        //this will commonly have a null sender, but in some cases, the sender may be an interactable object that can receive burdens and ideas.
+        if (!overrideValidation)
+        {
+            if (BurdenTools.PrevalidateTransaction(burden, sender, receiver))
+            {
+                receiver.burdenInventory.IngestBurden(burden, receiver);
+                return true;
+            }
+            else
+            {
+                //prevalidation failed! validation will handle the debug logs.
+                return false;
+            }
+        }
+        else
+        {
+            receiver.burdenInventory.IngestBurden(burden, receiver);
+            return true;
+        }
     }
 
 

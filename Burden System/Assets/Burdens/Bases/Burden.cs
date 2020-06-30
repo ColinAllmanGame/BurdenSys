@@ -143,7 +143,8 @@ namespace NoStudios.Burdens
             Debug.LogError("section not implemented");
         }
 
-        public virtual void BurdenRedundantAdd(BurdenClone burden)
+        
+        public virtual void BurdenRedundantAdd(BurdenClone burden) //a burden of this category is already here, what happens when another is added?
         {
             Debug.LogError("section not implemented");
         }
@@ -167,6 +168,18 @@ namespace NoStudios.Burdens
         public virtual void BurdenPostIngest(BurdenInventory target)
         { }//burden has been ingested, after being tinted by receiver. closing actions.
         //the post action also adds the burden to its' destination container's list.
+
+        public virtual void BurdenPreDissolve(BurdenInventory currentHolder)
+        {
+            Debug.Log("burden pre dissolve");
+            //burden is being removed by something nice.
+        }
+        public virtual void BurdenPostDissolve(BurdenInventory oldHolder)
+        {
+            Debug.Log("burden dissolved");
+            //burden is being removed by something nice.
+        }
+
     }
 
     

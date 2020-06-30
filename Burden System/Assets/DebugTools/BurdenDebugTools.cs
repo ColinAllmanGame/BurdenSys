@@ -11,11 +11,20 @@ public class BurdenDebugTools : MonoBehaviour
     public Burden burden;
     public void SendBurdenToRavi()
     {
-        ravi.TryAddBurden(burden.GenerateClone(),null,ravi);
+        ravi.AddBurdenWorldSource(burden.GenerateClone(),null,ravi);
     }
     public void SendBurdenToSlaughter()
     {
-        slaughter.TryAddBurden(burden.GenerateClone(), null, slaughter);
+        slaughter.AddBurdenWorldSource(burden.GenerateClone(), null, slaughter);
+    }
+
+    public void DissolveRaviBurden()
+    {
+        BurdenClone targetBurden = ravi.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
+        if (targetBurden != null)
+        {
+            ravi.burdenInventory.DissolveBurden(targetBurden,false);
+        }
     }
 
     public void UpdateRavi()

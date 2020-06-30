@@ -68,7 +68,7 @@ namespace NoStudios.Burdens
 
 
             bool SendSuccess = sender.burdenInventory.DispatchBurden(burden,sender.burdenInventory,receiver.burdenInventory);
-            bool ReceiveSuccess = receiver.TryAddBurden(burden, sender, receiver);
+            bool ReceiveSuccess = receiver.AddBurden(burden, sender, receiver);
 
             if(SendSuccess && ReceiveSuccess)
             {
@@ -94,7 +94,7 @@ namespace NoStudios.Burdens
 
             if (sender != null)
             {
-                if (!sender.canReceiveBurdens)
+                if (!sender.canSendBurdens)
                 {
                     canSend = false;
                 }
@@ -141,7 +141,7 @@ namespace NoStudios.Burdens
         public static void BurdenTransactionFailedLog(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver, bool queue = false)
         {
             //this is for error debugging, and not behavior.
-            Debug.LogWarning("A burden transaction failed between" + sender.burdenInventory.ContainerName + " and " + receiver.burdenInventory.ContainerName);
+            Debug.LogWarning("A burden transaction failed between " + sender.burdenInventory.ContainerName + " and " + receiver.burdenInventory.ContainerName);
         }
 
 
