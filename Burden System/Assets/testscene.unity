@@ -2918,7 +2918,7 @@ MonoBehaviour:
   ravi: {fileID: 1684793199}
   slaughter: {fileID: 1859103918}
   burden: {fileID: 11400000, guid: 761d1046d07f6fa4e8e624a6ba418ab6, type: 2}
-  categoryToTransfer: 3
+  categoryToTransfer: -6
 --- !u!1 &1684793198
 GameObject:
   m_ObjectHideFlags: 0

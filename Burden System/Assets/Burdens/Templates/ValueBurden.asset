@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09065309dfefa3e4fa7542a34ae49723, type: 3}
   m_Name: ValueBurden
   m_EditorClassIdentifier: Assembly-CSharp:NoStudios.Burdens:ValueBurden
-  category: 4
+  category: -6
   hiddenBurden: 0
   Permanent: 1
   preventDuplicates: 0

@@ -63,18 +63,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\BurdenButtonSender.cs" />
-    <Compile Include="Assets\BurdenDebugTools.cs" />
-    <Compile Include="Assets\BurdenDictionary.cs" />
-    <Compile Include="Assets\BurdenInventory.cs" />
-    <Compile Include="Assets\BurdenTemplates\GameBurdenCollection.cs" />
-    <Compile Include="Assets\BurdenTools.cs" />
-    <Compile Include="Assets\BurdenVisualizer.cs" />
-    <Compile Include="Assets\Burdens\BurdenTypes\Burden.cs" />
-    <Compile Include="Assets\Burdens\BurdenTypes\BurdenClone.cs" />
-    <Compile Include="Assets\Burdens\BurdenTypes\ValueBurden.cs" />
-    <Compile Include="Assets\CharacterBurdenManager.cs" />
-    <Compile Include="Assets\NarrativeConstants.cs" />
+    <Compile Include="Assets\Burdens\Bases\Burden.cs" />
+    <Compile Include="Assets\Burdens\Bases\BurdenClone.cs" />
+    <Compile Include="Assets\Burdens\BehaviorVariants\ValueBurden.cs" />
+    <Compile Include="Assets\Burdens\Inventories\BurdenDictionary.cs" />
+    <Compile Include="Assets\Burdens\Inventories\BurdenInventory.cs" />
+    <Compile Include="Assets\CharactersAndManagers\BurdenTools.cs" />
+    <Compile Include="Assets\CharactersAndManagers\CharacterBurdenManager.cs" />
+    <Compile Include="Assets\CharactersAndManagers\NarrativeConstants.cs" />
+    <Compile Include="Assets\DebugTools\BurdenButtonSender.cs" />
+    <Compile Include="Assets\DebugTools\BurdenDebugTools.cs" />
+    <Compile Include="Assets\DebugTools\BurdenVisualizer.cs" />
     <Compile Include="Assets\Rotary Heart\SerializableDictionary\DrawKeyAsPropertyAttribute.cs" />
     <Compile Include="Assets\Rotary Heart\SerializableDictionary\Example\DataBaseExample.cs" />
     <Compile Include="Assets\Rotary Heart\SerializableDictionary\Example\NestedDB.cs" />

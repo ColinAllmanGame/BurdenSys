@@ -44,39 +44,104 @@ namespace NoStudios.Burdens
             RaviSender,
             SlaughterSender,
         }
+
+        public enum TransactionRejectionReasons
+        {
+            CharacterUnableToReceive,
+            CharacterUnableToSend,
+            DuplicatesPrevented,
+        }
     
 
         public static bool TransferBurden(BurdenClone burden,CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
 
             //burden.BurdenPreSend(sender); //burden prepares for dispatch while inside first container. 
-            ////Undoing changes in the current container applied on arrival, removing barks, etc.
-            //
-            //Strongly consider verifying the ability for sender and receiver to "pre-approve" the transfer. As it is very hard to undo.
 
+            //Strongly consider verifying the ability for sender and receiver to "pre-approve" the transfer. As it is very hard to undo.
+            //it would be nice to get a reason for the rejection, perhaps return some send/receive data on prevalidate.
+
+            if(!PrevalidateTransaction(burden, sender, receiver))
+            {
+                return false;
+            }
 
 
             bool SendSuccess = sender.burdenInventory.DispatchBurden(burden,sender.burdenInventory,receiver.burdenInventory);
-            bool ReceiveSuccess = false;
-            if (SendSuccess)
+            bool ReceiveSuccess = receiver.TryAddBurden(burden, sender, receiver);
+
+            if(SendSuccess && ReceiveSuccess)
             {
-                ReceiveSuccess = receiver.TryAddBurden(burden, sender, receiver);
-            }
-            else
-            {
-                Debug.LogError("burden transfer failed, sender failure.");
-                return false;
-            }
-            
-            if(ReceiveSuccess)
-            {
+                Debug.Log("Burden transaction complete");
                 return true;
             }
             else
             {
-                Debug.LogWarning("burden transfer failed, receiver failure.");
+                Debug.Log("Burden transaction failure to send from " + sender.burdenInventory.ContainerName + " to " + receiver.burdenInventory.ContainerName +
+                    " of type " + burden.category.ToString());
                 return false;
             }
+
+        }
+
+        public static bool PrevalidateTransaction(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
+        {
+            //if receiver is null, this is auto-true, as we are destroying the burden
+            bool canReceive = true;
+
+            //if sender is null, this is auto-true, as this is a new burden from the world.;
+            bool canSend = true;
+
+            if (sender != null)
+            {
+                if (!sender.canReceiveBurdens)
+                {
+                    canSend = false;
+                }
+            }
+            if(receiver!=null)
+            {
+                if(!receiver.canReceiveBurdens)
+                {
+                    canReceive = false;
+                }
+            }
+
+
+            if (burden.duplicateRule == Burden.CloneDuplicateRule.rejectAllDuplicateRequests && receiver.burdenInventory.d_heldBurdens.ContainsKey(burden.category))
+            {
+                Debug.Log("burden duplicate disallowed by configuration of parent burden. (category type was already held)");
+                //this is not necessarily a failure, as some burdens may accumulate while others cannot. Abort the transaction.
+                //be wary, this can infinite loop if paired with an aggressive queue.
+                //let the sender know their attempt was rejected, perhaps even add more flavorful data later.
+                sender.BurdenSendRejected(TransactionRejectionReasons.DuplicatesPrevented, sender, receiver, burden);
+                receiver.BurdenReceiveRejected(TransactionRejectionReasons.DuplicatesPrevented, sender, receiver, burden);
+                return false;
+            }
+
+            if (!canSend)
+            {
+                Debug.LogWarning("A burden transaction was rejected by SENDER : " + sender.burdenInventory.ContainerName);
+                sender.BurdenSendRejected(TransactionRejectionReasons.CharacterUnableToSend, sender, receiver,burden);
+                receiver.BurdenReceiveRejected(TransactionRejectionReasons.CharacterUnableToSend, sender, receiver,burden);
+                BurdenTransactionFailedLog(burden, sender, receiver, false);
+                return false;
+            }
+            if (!canReceive)
+            {
+                Debug.LogWarning("A burden transaction was rejected by RECEIVER : " + receiver.burdenInventory.ContainerName);
+                sender.BurdenSendRejected(TransactionRejectionReasons.CharacterUnableToReceive, sender, receiver, burden);
+                receiver.BurdenReceiveRejected(TransactionRejectionReasons.CharacterUnableToReceive, sender, receiver, burden);
+                BurdenTransactionFailedLog(burden, sender, receiver, false);
+                return false;
+            }
+            return true;
+        }
+
+        public static void BurdenTransactionFailedLog(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver, bool queue = false)
+        {
+            //this is for error debugging, and not behavior.
+            Debug.LogWarning("A burden transaction failed between" + sender.burdenInventory.ContainerName + " and " + receiver.burdenInventory.ContainerName);
         }
 
 

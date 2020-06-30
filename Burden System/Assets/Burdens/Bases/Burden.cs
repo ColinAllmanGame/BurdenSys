@@ -49,21 +49,38 @@ namespace NoStudios.Burdens
         public virtual void AdjustFear(BurdenClone clone, int adjust) { return; }    
         public virtual void AdjustRegret(BurdenClone clone,int adjust) { return; }
 
+        [SerializeField]
+        [HideInInspector]
         System.Guid _guid;
-        public System.Guid parentBurdenGuid
+
+        //runtime calls that check this should use TRUE for initializeIfEmpty, to prevent runtime errors, at the cost of stability.
+        public System.Guid burdenGuid(bool initializeIfEmpty = false)
         {
-            get
-            {
                 if (_guid == System.Guid.Empty)
                 {
-                    Debug.LogError("FUGGIN MAKE GUID");
+                    if (initializeIfEmpty)
+                    {
+                    Debug.LogWarning("An object requested the GUID of a burden. It was not made yet. This has been updated. Burden category : " + category.ToString());
+                    MakeGuid();
+                    }
+                    else
+                    {
+                    Debug.LogWarning("An object requested the GUID of a burden and it was Empty. Call this method with a true arg, or MakeGuid " + category.ToString());
+                }
+
                 }
                 return _guid;
-            }
         }
-        void MakeGuid()
+        public void MakeGuid()
         {
-
+            if (_guid == System.Guid.Empty)
+            {
+                _guid = System.Guid.NewGuid();
+            }
+            else
+            {
+                Debug.LogError("bruh you don't need a new GUID, this burden already has one, the category is " + category.ToString()); ;
+            }
         }
 
 
@@ -104,7 +121,13 @@ namespace NoStudios.Burdens
 
         public bool Permanent = false; //this burden cannot be removed, ever (except by specific managers)
 
-        public bool preventDuplicates = false; //can the target accrue multiple instances of this burden?
+        public enum CloneDuplicateRule
+        {
+            none, //HURT ME PLENTY, ADD ME WEIGHT, TIS NOT THIS 'OL FRAME CANNOT BEAR
+            rejectAllDuplicateRequests, //single instance of a category, all duplicates rejected prior to transaction.
+            singleInstanceAcceptDuplicates, //can ingest a duplicate, but will only modify the already held clone, instead of adding a new clone to the list.
+        }
+        public CloneDuplicateRule preventDuplicates = CloneDuplicateRule.none; //can the target accrue multiple instances of this burden?
         //(this should adjust an instancesHeld value in the burden, isntead of actually adding more instances)
 
         public bool canBeShared = true;

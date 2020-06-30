@@ -191,22 +191,10 @@ namespace NoStudios.Burdens
 
         public bool IngestBurden(BurdenClone burden,CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
-            //check if able to receive burden
-            bool ableToReceive = true;
-            if (!ableToReceive)
-            {
-                Debug.LogWarning("receiver unable to receive burden.");
-                return false;
-            }
 
             if (d_heldBurdens.ContainsKey(burden.category))
             {
                 //this category is already held
-                if(burden.uniquePreventMultiple)
-                {
-                    Debug.Log("burden duplicate disallowed by configuration of parent burden. (category type was already held)");
-                    return false;
-                }
                 //an instance of this type is already held, Process it and add it to the list.
                 BurdenClone ReceiverTintedBurden = ReceiverTintBurden(burden, sender, receiver);
                 BurdenClone IngestTintedBurden = IngestTintBurden(burden, sender, receiver);
@@ -281,11 +269,6 @@ namespace NoStudios.Burdens
             //perhaps check against the receiver prior to tinting.
 
             //consider doing this with a callback to confirm receipt.
-            bool ableToDispatch = true;
-            if(!ableToDispatch)
-            {
-                return false;
-            }
 
                 //tint by sender
                 BurdenProcess senderOperation = BurdenTools.GetBurdenProcessSender(senderType);
@@ -302,7 +285,6 @@ namespace NoStudios.Burdens
 
                 BurdensCollectionChanged();
                 burden.parentBurden.BurdenPostSend(burden, this);
-
                 return true;
         }
 

@@ -15,9 +15,9 @@ namespace NoStudios.Burdens
 
         public Burden parentBurden; /// <summary>
 
-        public System.Guid parentGUid
+        public System.Guid parentGuid
         {
-            get { return parentBurden.parentBurdenGuid; }
+            get { return parentBurden.burdenGuid(); }
         }
         /// add getter setter, if this is null, get from guid. Or at deserialize
         /// </summary>
@@ -65,7 +65,7 @@ namespace NoStudios.Burdens
             get { return parentBurden.Permanent; }
         }//this burden cannot be removed, ever (except by specific managers)
 
-        public bool uniquePreventMultiple
+        public Burden.CloneDuplicateRule duplicateRule
         {
             get { return parentBurden.preventDuplicates; }
         }//can the target accrue multiple instances of this burden?
