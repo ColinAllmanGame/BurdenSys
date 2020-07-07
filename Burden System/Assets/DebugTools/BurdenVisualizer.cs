@@ -51,25 +51,5 @@ namespace NoStudios.Burdens
                 Val5.text = subject.totalRegretVisible.ToString() + " Regret";
             }
         }
-
-
-        // Update is called once per frame
-        //void Update()
-        //{
-        //    if(Val1!=null)
-        //    {
-        //        Val1.text = subject.numBurdens.ToString() + " total burdens";
-        //    }
-
-        //    if(Val2!=null)
-        //    {
-        //        Val2.text = subject.totalFearVisible.ToString() + " fear";
-        //    }
-
-        //    if(Val3!=null)
-        //    {
-        //        Val3.text = subject.totalTraumaVisible.ToString() + " trauma";
-        //    }
-        //}
     }
 }
