@@ -16,51 +16,39 @@ using System;
         public int hateValue = 1;
 
 
-    public override BurdenClone GenerateClone(string sourceNote = "")
+    public override Burden GenerateClone(string sourceNote = "")
     {
-        BurdenClone clone = new BurdenClone();
-        clone.parentBurden = this;
-        clone.sourceNote = sourceNote;
+        var clone = BurdenUtility<ValueBurden>.Clone(this, sourceNote);
         clone.traumaValue = traumaValue;
         clone.regretValue = regretValue;
         clone.hateValue = hateValue;
         clone.fearValue = fearValue;
-        clone.uniqueID = System.Guid.NewGuid();
         return clone;
     }
 
-    public override int Trauma(BurdenClone clone)
-        {
-            return clone.traumaValue;
-        }
-        public override int Fear(BurdenClone clone)
-        {
-            return clone.fearValue;
-        }
-        public override int Regret(BurdenClone clone)
-        {
-            return clone.regretValue;
-        }
-        public override int Hate(BurdenClone clone)
-        {
-            return clone.hateValue;
-        }
+    public override int Trauma => traumaValue;
 
-    public override void AdjustTrauma(BurdenClone clone, int adjust)
+    public override int Fear => fearValue;
+
+    public override int Regret => regretValue;
+
+    public override int Hate => hateValue;
+
+    public override void AdjustTrauma(int adjust)
     {
-        clone.traumaValue = Mathf.Clamp(clone.traumaValue + adjust, 0, 1000000);
+        traumaValue = Mathf.Clamp(traumaValue + adjust, 0, 1000000);
     }
-    public override void AdjustFear(BurdenClone clone, int adjust)
+    public override void AdjustFear(int adjust)
     {
-        clone.fearValue = Mathf.Clamp(clone.fearValue + adjust, 0, 1000000);
+        fearValue = Mathf.Clamp(fearValue + adjust, 0, 1000000);
     }
-    public override void AdjustRegret(BurdenClone clone, int adjust)
+    public override void AdjustRegret(int adjust)
     {
-        clone.regretValue = Mathf.Clamp(clone.regretValue + adjust, 0, 1000000);
+        regretValue = Mathf.Clamp(regretValue + adjust, 0, 1000000);
     }
-    public override void AdjustHate(BurdenClone clone,int adjust)
+    public override void AdjustHate(int adjust)
     {
-        clone.hateValue = Mathf.Clamp(clone.hateValue + adjust, 0, 1000000);
+        hateValue = Mathf.Clamp(hateValue + adjust, 0, 1000000);
     }
 }
 

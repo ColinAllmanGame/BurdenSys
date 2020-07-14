@@ -1,6 +1,7 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace NoStudios.Burdens
 {
@@ -33,67 +34,86 @@ namespace NoStudios.Burdens
         public BurdenCategory burdenCategory;
     }
 
-    [CreateAssetMenu(fileName = "DefaultBurden", menuName = "Burdens/MakeDefaultBurden", order = 1)]
+    public abstract class BurdenTemplate<T> : ScriptableObject
+        where T : Burden, new()
+    {
+        [SerializeField, HideInInspector] Guid m_TemplateId;
+        
+        [SerializeField] T m_Burden;
+
+        public Guid TemplateId => m_TemplateId;
+
+        public T Clone(string sourceNote = null) => BurdenUtility<T>.Clone(m_Burden, sourceNote);
+
+#if UNITY_EDITOR
+        void OnValidate()
+        {
+            if (m_TemplateId == Guid.Empty)
+                m_TemplateId = Guid.NewGuid();
+        }
+#endif
+    }
+
+    // [CreateAssetMenu(fileName = "DefaultBurden", menuName = "Burdens/MakeDefaultBurden", order = 1)]
     [System.Serializable]
-    public class Burden : ScriptableObject
+    public abstract class Burden
     {
         public BurdenCategory category;
-        public virtual int Trauma(BurdenClone clone) { return 0; }
-        public virtual int Hate(BurdenClone clone) { return 0; }
-        public virtual int Fear(BurdenClone clone) { return 0; }
-        public virtual int Regret(BurdenClone clone) { return 0; }
+
+        public Guid TemplateId = Guid.Empty;
+        public Burden parentBurden = null;
+        public string SourceNote = null;
+        public CloneDuplicateRule duplicateRule = CloneDuplicateRule.none;
+
+        public virtual int Trauma { get; }
+        public virtual int Hate { get; }
+        public virtual int Fear { get; }
+        public virtual int Regret { get; }
 
 
-        public virtual void AdjustTrauma(BurdenClone clone, int adjust) { return; }
-        public virtual void AdjustHate(BurdenClone clone, int adjust) { return; }
-        public virtual void AdjustFear(BurdenClone clone, int adjust) { return; }    
-        public virtual void AdjustRegret(BurdenClone clone,int adjust) { return; }
-
-        [SerializeField]
-        [HideInInspector]
-        System.Guid _guid;
+        public virtual void AdjustTrauma(int adjust) { return; }
+        public virtual void AdjustHate(int adjust) { return; }
+        public virtual void AdjustFear(int adjust) { return; }    
+        public virtual void AdjustRegret(int adjust) { return; }
+        //
+        // [SerializeField]
+        // [HideInInspector]
+        // System.Guid _guid;
 
         //runtime calls that check this should use TRUE for initializeIfEmpty, to prevent runtime errors, at the cost of stability.
-        public System.Guid burdenGuid(bool initializeIfEmpty = false)
-        {
-                if (_guid == System.Guid.Empty)
-                {
-                    if (initializeIfEmpty)
-                    {
-                    Debug.LogWarning("An object requested the GUID of a burden. It was not made yet. This has been updated. Burden category : " + category.ToString());
-                    MakeGuid();
-                    }
-                    else
-                    {
-                    Debug.LogWarning("An object requested the GUID of a burden and it was Empty. Call this method with a true arg, or MakeGuid " + category.ToString());
-                }
-
-                }
-                return _guid;
-        }
-        public void MakeGuid()
-        {
-            if (_guid == System.Guid.Empty)
-            {
-                _guid = System.Guid.NewGuid();
-            }
-            else
-            {
-                Debug.LogError("bruh you don't need a new GUID, this burden already has one, the category is " + category.ToString()); ;
-            }
-        }
+        // public System.Guid burdenGuid(bool initializeIfEmpty = false)
+        // {
+        //         if (_guid == System.Guid.Empty)
+        //         {
+        //             if (initializeIfEmpty)
+        //             {
+        //             Debug.LogWarning("An object requested the GUID of a burden. It was not made yet. This has been updated. Burden category : " + category.ToString());
+        //             MakeGuid();
+        //             }
+        //             else
+        //             {
+        //             Debug.LogWarning("An object requested the GUID of a burden and it was Empty. Call this method with a true arg, or MakeGuid " + category.ToString());
+        //         }
+        //
+        //         }
+        //         return _guid;
+        // }
+        // public void MakeGuid()
+        // {
+        //     if (_guid == System.Guid.Empty)
+        //     {
+        //         _guid = System.Guid.NewGuid();
+        //     }
+        //     else
+        //     {
+        //         Debug.LogError("bruh you don't need a new GUID, this burden already has one, the category is " + category.ToString()); ;
+        //     }
+        // }
 
 
         //sourcenote is any extra string data that you may want referenceable in the burden later (such as the source's name, or scene, etc)
         //it is a debugging tool that should not be used in logic
-        public virtual BurdenClone GenerateClone(string sourceNote = "")
-        {
-            BurdenClone clone = new BurdenClone();
-            clone.parentBurden = this;
-            clone.sourceNote = sourceNote;
-            clone.uniqueID = System.Guid.NewGuid();
-            return clone;
-        }
+        public abstract Burden GenerateClone(string sourceNote = "");
 
         public int numShared
         {
@@ -138,26 +158,26 @@ namespace NoStudios.Burdens
             //there should be a check on propagate that verifies this instance of a burden is not shared by any other active container.
 
 
-        public virtual void BurdenWorldTick(BurdenClone burden) //when the world state advances, the burden receives this call.
+        public virtual void BurdenWorldTick() //when the world state advances, the burden receives this call.
         {
             Debug.LogError("section not implemented");
         }
 
         
-        public virtual void BurdenRedundantAdd(BurdenClone burden) //a burden of this category is already here, what happens when another is added?
+        public virtual void BurdenRedundantAdd() //a burden of this category is already here, what happens when another is added?
         {
             Debug.LogError("section not implemented");
         }
 
 
-        public virtual void BurdenSendAction(BurdenClone burden, BurdenInventory origin,BurdenInventory target)
+        public virtual void BurdenSendAction(Burden burden, BurdenInventory origin,BurdenInventory target)
         { }//burden is dispatched, the sender tints the burden here.
-        public virtual void BurdenPostSend(BurdenClone burden, BurdenInventory origin)
+        public virtual void BurdenPostSend(Burden burden, BurdenInventory origin)
         { }//when burden is sent to another entity, after the sender has modified it.
         //the post action also removes the burden from it's origin container
 
         List<BurdenInfo> currentOwners = new List<BurdenInfo>();
-        public virtual void OwnerChangeNotice(BurdenClone burden, BurdenInventory owner,bool acquiring )
+        public virtual void OwnerChangeNotice(Burden burden, BurdenInventory owner,bool acquiring )
         {
             //what happens when a burden changes hands?
         }
@@ -182,7 +202,20 @@ namespace NoStudios.Burdens
 
     }
 
-    
+    public static class BurdenUtility<T>
+        where T : Burden, new()
+    {
+        public static T Clone(T parent, string sourceNote = null)
+        {
+            Assert.IsNotNull(parent);
+            
+            var json = JsonUtility.ToJson(parent);
+            var clone = JsonUtility.FromJson<T>(json);
+            clone.parentBurden = parent;
+            clone.SourceNote = sourceNote;
 
+            return clone;
+        }
+    }
 }
 

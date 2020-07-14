@@ -20,7 +20,7 @@ public class BurdenDebugTools : MonoBehaviour
 
     public void DissolveRaviBurden()
     {
-        BurdenClone targetBurden = ravi.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
+        var targetBurden = ravi.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
         if (targetBurden != null)
         {
             ravi.burdenInventory.DissolveBurden(targetBurden,false);
@@ -40,7 +40,7 @@ public class BurdenDebugTools : MonoBehaviour
     public void TransferToSlaughter()
     {
         //burdens will need to be sent via their unique ID, or one from a category at random, or a whole category, etc.
-        BurdenClone targetBurden = ravi.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
+        var targetBurden = ravi.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
         if (targetBurden != null)
         {
             ravi.TrySendBurden(targetBurden, slaughter);
@@ -50,7 +50,7 @@ public class BurdenDebugTools : MonoBehaviour
     public void TransferToRavi()
     {
         //burdens will need to be sent via their unique ID, or one from a category at random, or a whole category, etc.
-        BurdenClone targetBurden = slaughter.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
+        var targetBurden = slaughter.burdenInventory.GetTopBurdenByCategory(categoryToTransfer);
         if (targetBurden != null)
         {
             slaughter.TrySendBurden(targetBurden, ravi);

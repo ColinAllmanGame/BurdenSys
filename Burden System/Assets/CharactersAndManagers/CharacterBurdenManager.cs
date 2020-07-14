@@ -28,12 +28,12 @@ public class CharacterBurdenManager : MonoBehaviour
     //Perhaps this could generate a new burden, if it was rejected by a character not willing to listen.
     //reactions are configured on a per-burden basis.
     //this may also need to observe some character psychology state, such as Busy, Talking, Queued Actions, etc.
-    public void BurdenSendRejected(BurdenTools.TransactionRejectionReasons reason, CharacterBurdenManager sender, CharacterBurdenManager receiver, BurdenClone burden)
+    public void BurdenSendRejected(BurdenTools.TransactionRejectionReasons reason, CharacterBurdenManager sender, CharacterBurdenManager receiver, Burden burden)
     {
         //this character tried to send a burden, but it failed for reason
         Debug.Log("burden transaction rejected with reason : " +reason.ToString());
     }
-    public void BurdenReceiveRejected(BurdenTools.TransactionRejectionReasons reason, CharacterBurdenManager sender, CharacterBurdenManager receiver, BurdenClone burden)
+    public void BurdenReceiveRejected(BurdenTools.TransactionRejectionReasons reason, CharacterBurdenManager sender, CharacterBurdenManager receiver, Burden burden)
     {
         //this character was to be sent a burden, but it failed with reason.
         Debug.Log("burden transaction rejected with reason : " + reason.ToString());
@@ -46,12 +46,12 @@ public class CharacterBurdenManager : MonoBehaviour
         Debug.LogError(burdenInventory.ContainerName + " tried to add a burden but was unable. This is post validate or a non-character sender, something has gone wrong.");
     }
 
-    void BurdenSendFail(BurdenClone burden)
+    void BurdenSendFail(Burden burden)
     {
         Debug.LogError(burdenInventory.ContainerName + " was requested to send a " + burden.parentBurden.category.ToString() + ", but is flagged unable to do so. This is post validate, something has gone wrong.");
     }
 
-    public bool TrySendBurden(BurdenClone burden, CharacterBurdenManager target)
+    public bool TrySendBurden(Burden burden, CharacterBurdenManager target)
     {
         if(burden == null)
         {
@@ -71,7 +71,7 @@ public class CharacterBurdenManager : MonoBehaviour
         }
     }
 
-    public bool AddBurden(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
+    public bool AddBurden(Burden burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
     {
         //pre-validated add burden method, used on dynamic transactions
 
@@ -90,7 +90,7 @@ public class CharacterBurdenManager : MonoBehaviour
         return true;
     }
 
-    public bool AddBurdenWorldSource(BurdenClone burden,CharacterBurdenManager sender,CharacterBurdenManager receiver,bool overrideValidation=false)
+    public bool AddBurdenWorldSource(Burden burden,CharacterBurdenManager sender,CharacterBurdenManager receiver,bool overrideValidation=false)
     {
         //accessed by world sources to add a burden to the character.
         //May or may not validate prior (some systems may necessitate overrides)

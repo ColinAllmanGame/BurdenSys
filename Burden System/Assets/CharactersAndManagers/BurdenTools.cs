@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NoStudios.Burdens
 {
-    public delegate BurdenClone BurdenProcess(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver);
+    public delegate Burden BurdenProcess(Burden burden, BurdenInventory sender, BurdenInventory receiver);
 
 
     public static class BurdenTools
@@ -53,7 +53,7 @@ namespace NoStudios.Burdens
         }
     
 
-        public static bool TransferBurden(BurdenClone burden,CharacterBurdenManager sender, CharacterBurdenManager receiver)
+        public static bool TransferBurden(Burden burden,CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
 
             //burden.BurdenPreSend(sender); //burden prepares for dispatch while inside first container. 
@@ -84,7 +84,7 @@ namespace NoStudios.Burdens
 
         }
 
-        public static bool PrevalidateTransaction(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
+        public static bool PrevalidateTransaction(Burden burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
             //if receiver is null, this is auto-true, as we are destroying the burden
             bool canReceive = true;
@@ -138,7 +138,7 @@ namespace NoStudios.Burdens
             return true;
         }
 
-        public static void BurdenTransactionFailedLog(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver, bool queue = false)
+        public static void BurdenTransactionFailedLog(Burden burden, CharacterBurdenManager sender, CharacterBurdenManager receiver, bool queue = false)
         {
             //this is for error debugging, and not behavior.
             Debug.LogWarning("A burden transaction failed between " + sender.burdenInventory.ContainerName + " and " + receiver.burdenInventory.ContainerName);
@@ -189,39 +189,39 @@ namespace NoStudios.Burdens
         //BURDEN RECEIVER BEHAVIORS
         //BURDEN RECEIVER BEHAVIORS
         //BURDEN RECEIVER BEHAVIORS
-        public static BurdenClone DEFAULTBurdenReceiver(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden DEFAULTBurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             //the default sender does nothing. The burden is transmitted unmodified.
             Debug.Log("No modifier applied to burden received");
             return burden;
         }
 
-        public static BurdenClone AlkyoneBurdenReceiver(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden AlkyoneBurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Burden modified by Alkyone's receiver");
             return burden;
         }
 
-        public static BurdenClone GloryBurdenReceiver(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden GloryBurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Burden modified by Glory's receiver");
             return burden;
         }
 
-        public static BurdenClone M21BurdenReceiver(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden M21BurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Burden modified by M21's receiver");
             return burden;
         }
 
-        public static BurdenClone RaviBurdenReceiver(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden RaviBurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Burden modified by Ravi's receiver");
-            burden.parentBurden.AdjustFear(burden,-1);
+            burden.parentBurden.AdjustFear(-1);
             return burden;
         }
 
-        public static BurdenClone SlaughterBurdenReceiver(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden SlaughterBurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Burden modified by Slaughters's receiver");
             return burden;
@@ -231,38 +231,38 @@ namespace NoStudios.Burdens
         //BURDEN SENDER BEHAVIORS
         //BURDEN SENDER BEHAVIORS
         //BURDEN SENDER BEHAVIORS
-        public static BurdenClone DEFAULTBurdenSender(BurdenClone burden,BurdenInventory sender, BurdenInventory receiver)
+        public static Burden DEFAULTBurdenSender(Burden burden,BurdenInventory sender, BurdenInventory receiver)
         {
             //the default sender does nothing. The burden is transmitted unmodified.
             Debug.Log("No modifier applied to Burden Sent");
             return burden;
         }
 
-        public static BurdenClone AlkyoneBurdenSender(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden AlkyoneBurdenSender(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Alkyone modifier applied to Burden Sent");
             return burden;
         }
 
-        public static BurdenClone GloryBurdenSender(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden GloryBurdenSender(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Glory modifier applied to Burden Sent");
             return burden;
         }
 
-        public static BurdenClone M21BurdenSender(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden M21BurdenSender(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("M21 modifier applied to Burden Sent");
             return burden;
         }
 
-        public static BurdenClone RaviBurdenSender(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden RaviBurdenSender(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Ravi modifier applied to Burden Sent");
             return burden;
         }
 
-        public static BurdenClone SlaughterBurdenSender(BurdenClone burden, BurdenInventory sender, BurdenInventory receiver)
+        public static Burden SlaughterBurdenSender(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Slaughter modifier applied to Burden Sent");
             return burden;

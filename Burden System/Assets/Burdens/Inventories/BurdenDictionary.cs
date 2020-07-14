@@ -6,8 +6,8 @@ using UnityEngine;
 [Serializable]
 public class BurdenDictionary
 {
-    [SerializeReference] List<KeyValuePair<BurdenCategory, List<BurdenClone>>> m_Data = new List<KeyValuePair<BurdenCategory, List<BurdenClone>>>();
-    [NonSerialized] Dictionary<BurdenCategory, List<BurdenClone>> m_Dictionary = new Dictionary<BurdenCategory, List<BurdenClone>>();
+    [SerializeReference] List<KeyValuePair<BurdenCategory, List<Burden>>> m_Data = new List<KeyValuePair<BurdenCategory, List<Burden>>>();
+    [NonSerialized] Dictionary<BurdenCategory, List<Burden>> m_Dictionary = new Dictionary<BurdenCategory, List<Burden>>();
     
     public void OnBeforeSerialize()
     {
@@ -22,7 +22,7 @@ public class BurdenDictionary
             m_Data.Add(m_Data[i]);
     }
 
-    public List<BurdenClone> this[BurdenCategory key]
+    public List<Burden> this[BurdenCategory key]
     {
         get => m_Dictionary[key];
         set => m_Dictionary[key] = value;
@@ -30,9 +30,9 @@ public class BurdenDictionary
 
     public bool ContainsKey(BurdenCategory key) => m_Dictionary.ContainsKey(key);
 
-    public void Add(BurdenCategory key, List<BurdenClone> clones) => m_Dictionary.Add(key, clones);
+    public void Add(BurdenCategory key, List<Burden> clones) => m_Dictionary.Add(key, clones);
 
-    public Dictionary<BurdenCategory, List<BurdenClone>>.KeyCollection Keys => m_Dictionary.Keys;
+    public Dictionary<BurdenCategory, List<Burden>>.KeyCollection Keys => m_Dictionary.Keys;
 }
 
 

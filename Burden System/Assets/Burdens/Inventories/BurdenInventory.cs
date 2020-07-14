@@ -26,7 +26,7 @@ namespace NoStudios.Burdens
             InitializeBurdenDictionary();
         }
 
-        public BurdenClone GetTopBurdenByCategory(BurdenCategory cat)
+        public Burden GetTopBurdenByCategory(BurdenCategory cat)
         {
             if(d_heldBurdens[cat].Count==0)
             {
@@ -56,7 +56,7 @@ namespace NoStudios.Burdens
             }
             foreach(BurdenCategory cat in missingCats)
             {
-                d_heldBurdens.Add(cat, new List<BurdenClone>());
+                d_heldBurdens.Add(cat, new List<Burden>());
             }
             if(!categoriesValid)
             {
@@ -152,10 +152,10 @@ namespace NoStudios.Burdens
 
             Debug.LogWarning("Updated container values on " + ContainerName);
             //for each burden category (holds a collection of burdens of that type)
-            foreach(BurdenCategory burdenCat in d_heldBurdens.Keys)
+            foreach(var burdenCat in d_heldBurdens.Keys)
             {
                 //for each burden within that category.
-                foreach (BurdenClone burden in d_heldBurdens[burdenCat])
+                foreach (var burden in d_heldBurdens[burdenCat])
                 {
                     if (burden.hiddenBurden)
                     {
@@ -167,10 +167,10 @@ namespace NoStudios.Burdens
                         //each burden should be parsed for a delegate list to apply to every value prior to this.
                         //these delegates can then be applied to the whole process, or just a portion of it.
                         //much like a status effect.
-                        tempTraumaVisible += burden.Trauma();
-                        tempRegretVisible += burden.Regret();
-                        tempFearVisible += burden.Fear();
-                        tempHateVisible += burden.Hate();
+                        tempTraumaVisible += burden.Trauma;
+                        tempRegretVisible += burden.Regret;
+                        tempFearVisible += burden.Fear;
+                        tempHateVisible += burden.Hate;
                     }
                 }
             }
@@ -189,22 +189,22 @@ namespace NoStudios.Burdens
 
 
 
-        public bool IngestBurden(BurdenClone burden,CharacterBurdenManager sender, CharacterBurdenManager receiver)
+        public bool IngestBurden(Burden burden,CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
 
             if (d_heldBurdens.ContainsKey(burden.category))
             {
                 //this category is already held
                 //an instance of this type is already held, Process it and add it to the list.
-                BurdenClone ReceiverTintedBurden = ReceiverTintBurden(burden, sender, receiver);
-                BurdenClone IngestTintedBurden = IngestTintBurden(burden, sender, receiver);
+                Burden ReceiverTintedBurden = ReceiverTintBurden(burden, sender, receiver);
+                Burden IngestTintedBurden = IngestTintBurden(burden, sender, receiver);
                 d_heldBurdens[burden.category].Add(IngestTintedBurden);
             }
             else
             {
-                d_heldBurdens.Add(burden.category, new List<BurdenClone>()); //make the new category
-                BurdenClone ReceiverTintedBurden = ReceiverTintBurden(burden, sender, receiver); //tint by receiver (character ingest action)
-                BurdenClone IngestTintedBurden = IngestTintBurden(burden, sender, receiver); //tint by ingest (burden ingest action)
+                d_heldBurdens.Add(burden.category, new List<Burden>()); //make the new category
+                Burden ReceiverTintedBurden = ReceiverTintBurden(burden, sender, receiver); //tint by receiver (character ingest action)
+                Burden IngestTintedBurden = IngestTintBurden(burden, sender, receiver); //tint by ingest (burden ingest action)
                 d_heldBurdens[burden.category].Add(burden); //add to receiver inventory
                 //this is a new burden we have not received yet. make a new info, new list, and add to it.
             }
@@ -218,7 +218,7 @@ namespace NoStudios.Burdens
             return true;
         }
 
-        BurdenClone ReceiverTintBurden(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
+        Burden ReceiverTintBurden(Burden burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
             //tint based on receiving behaviors of the receiving inventory
             BurdenProcess receiverOperation = BurdenTools.GetBurdenProcessReceiver(receiverType);
@@ -232,7 +232,7 @@ namespace NoStudios.Burdens
             }
             return burden;
         }
-        BurdenClone IngestTintBurden(BurdenClone burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
+        Burden IngestTintBurden(Burden burden, CharacterBurdenManager sender, CharacterBurdenManager receiver)
         {
             //Lets the burden's ingest behavior act, with reference to the sender and receiver so the burden can do things to them.
             if (sender != null)
@@ -247,17 +247,17 @@ namespace NoStudios.Burdens
         }
 
         //this overload is used when a sender does not exist. it will dispatch null to the various methods instead.
-        public bool IngestBurden(BurdenClone burden, CharacterBurdenManager receiver)
+        public bool IngestBurden(Burden burden, CharacterBurdenManager receiver)
         {
             return IngestBurden(burden, null, receiver);
         }
 
-        BurdenClone cachedCloneBackup;
-        public bool DispatchBurden(BurdenClone burden,BurdenInventory sender,BurdenInventory receiver)
+        Burden cachedCloneBackup;
+        public bool DispatchBurden(Burden burden,BurdenInventory sender, BurdenInventory receiver)
         {
                 //tint by sender
                 BurdenProcess senderOperation = BurdenTools.GetBurdenProcessSender(senderType);
-                BurdenClone modifiedBurden = senderOperation(burden, this, receiver);
+                Burden modifiedBurden = senderOperation(burden, this, receiver);
 
                 //tint by parentburden's pre-send action while still in sender inventory
                 modifiedBurden.parentBurden.BurdenSendAction(burden,sender, receiver);
@@ -272,7 +272,7 @@ namespace NoStudios.Burdens
                 return true;
         }
 
-        public void DissolveBurden(BurdenClone burden,bool isSilent)
+        public void DissolveBurden(Burden burden,bool isSilent)
         {
             if (d_heldBurdens.ContainsKey(burden.category))
             {
