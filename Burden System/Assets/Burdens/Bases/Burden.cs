@@ -34,30 +34,43 @@ namespace NoStudios.Burdens
         public BurdenCategory burdenCategory;
     }
 
-    public abstract class BurdenTemplate<T> : ScriptableObject
+    public abstract class BurdenTemplate : DataTemplate, IBurdenTemplate
+    {
+        public abstract Burden Clone();
+
+        public abstract Burden Clone(string sourceNote);
+    }
+
+    public abstract class BurdenTemplate<T> : BurdenTemplate
         where T : Burden, new()
     {
-        [SerializeField, HideInInspector] Guid m_TemplateId;
+        [SerializeField] string m_SourceNote;
+        [SerializeField] T m_Burden = new T();
         
-        [SerializeField] T m_Burden;
+        public virtual T Create(string sourceNote = null) => Burden.CloneFrom(m_Burden, sourceNote);
 
-        public Guid TemplateId => m_TemplateId;
+        public sealed override Burden Clone() => Create(m_SourceNote);
 
-        public T Clone(string sourceNote = null) => BurdenUtility<T>.Clone(m_Burden, sourceNote);
-
-#if UNITY_EDITOR
-        void OnValidate()
-        {
-            if (m_TemplateId == Guid.Empty)
-                m_TemplateId = Guid.NewGuid();
-        }
-#endif
+        public sealed override Burden Clone(string sourceNote) => Create(sourceNote);
     }
 
     // [CreateAssetMenu(fileName = "DefaultBurden", menuName = "Burdens/MakeDefaultBurden", order = 1)]
     [System.Serializable]
     public abstract class Burden
     {
+        public static T CloneFrom<T>(T parent, string sourceNote = null)
+            where T : Burden, new()
+        {
+            Assert.IsNotNull(parent);
+            
+            var json = JsonUtility.ToJson(parent);
+            var clone = JsonUtility.FromJson<T>(json);
+            clone.parentBurden = parent;
+            clone.SourceNote = sourceNote;
+
+            return clone;
+        }
+
         public BurdenCategory category;
 
         public Guid TemplateId = Guid.Empty;
@@ -205,17 +218,7 @@ namespace NoStudios.Burdens
     public static class BurdenUtility<T>
         where T : Burden, new()
     {
-        public static T Clone(T parent, string sourceNote = null)
-        {
-            Assert.IsNotNull(parent);
-            
-            var json = JsonUtility.ToJson(parent);
-            var clone = JsonUtility.FromJson<T>(json);
-            clone.parentBurden = parent;
-            clone.SourceNote = sourceNote;
-
-            return clone;
-        }
+        
     }
 }
 

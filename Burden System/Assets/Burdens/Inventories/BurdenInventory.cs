@@ -1,17 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using NoStudios.Burdens;
 using UnityEngine.Events;
 using static NoStudios.Burdens.BurdenTools;
 using System;
-using System.Reflection;
 
 namespace NoStudios.Burdens
 {
-
-    [CreateAssetMenu(fileName = "DefaultBurdenContainer", menuName = "ScriptableObjects/MakeBurdenContainer", order = 1)]
-    public class BurdenInventory : ScriptableObject
+    // [CreateAssetMenu(fileName = "DefaultBurdenContainer", menuName = "ScriptableObjects/MakeBurdenContainer", order = 1)]
+    public class BurdenInventory/* : ScriptableObject*/
     {
         public string ContainerName = "defaultName";      
         public BurdenReceiverType receiverType;

@@ -18,7 +18,7 @@ using System;
 
     public override Burden GenerateClone(string sourceNote = "")
     {
-        var clone = BurdenUtility<ValueBurden>.Clone(this, sourceNote);
+        var clone = CloneFrom(this, sourceNote);
         clone.traumaValue = traumaValue;
         clone.regretValue = regretValue;
         clone.hateValue = hateValue;

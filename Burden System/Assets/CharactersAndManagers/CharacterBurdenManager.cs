@@ -1,28 +1,28 @@
 ﻿using NoStudios.Burdens;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static NoStudios.Burdens.BurdenTools;
 
 public class CharacterBurdenManager : MonoBehaviour
 {
+    [SerializeField] GameStateContainer m_Container;
+    
     public bool canReceiveBurdens = true;
     public bool canSendBurdens = true;
 
+    public BurdenSenderType SenderType;
     public BurdenInventory burdenInventory;
-
-    private void Awake()
+    
+    async void Start()
     {
-        burdenInventory.CharacterReady();
+        await m_Container.IsReady;
+        
+        burdenInventory = m_Container.GetInventory(SenderType);
         Debug.Log(burdenInventory.ContainerName +" burden inventory active, starting Vals :" + "T"+burdenInventory.Trauma(true).ToString()
-            + "F" + burdenInventory.Fear(true).ToString()
-            + "R" + burdenInventory.Regret(true).ToString()
-            + "H" + burdenInventory.Hate(true).ToString());
+                + "F" + burdenInventory.Fear(true).ToString()
+                + "R" + burdenInventory.Regret(true).ToString()
+                + "H" + burdenInventory.Hate(true).ToString());
     }
-
-
-
-
+    
     //the character was involved in a burden transaction that was rejected, add reaction flavor, followup actions, etc, here.
     //the clone ref is made available to determine reaction to failure.
     //Perhaps this could generate a new burden, if it was rejected by a character not willing to listen.

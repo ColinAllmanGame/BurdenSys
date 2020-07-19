@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace NoStudios.Burdens
@@ -267,6 +266,5 @@ namespace NoStudios.Burdens
             Debug.Log("Slaughter modifier applied to Burden Sent");
             return burden;
         }
-
     }
 }

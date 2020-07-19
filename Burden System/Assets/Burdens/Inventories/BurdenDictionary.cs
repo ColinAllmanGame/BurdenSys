@@ -32,6 +32,12 @@ public class BurdenDictionary
 
     public void Add(BurdenCategory key, List<Burden> clones) => m_Dictionary.Add(key, clones);
 
+    public bool TryGetValue(BurdenCategory key, out List<Burden> value)
+    {
+        value = null;
+        return m_Dictionary.TryGetValue(key, out value);
+    }
+
     public Dictionary<BurdenCategory, List<Burden>>.KeyCollection Keys => m_Dictionary.Keys;
 }
 
