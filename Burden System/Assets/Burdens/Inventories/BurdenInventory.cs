@@ -148,10 +148,10 @@ namespace NoStudios.Burdens
 
             Debug.LogWarning("Updated container values on " + ContainerName);
             //for each burden category (holds a collection of burdens of that type)
-            foreach(var burdenCat in d_heldBurdens.Keys)
+            foreach(var burdenPair in d_heldBurdens.Pairs)
             {
                 //for each burden within that category.
-                foreach (var burden in d_heldBurdens[burdenCat])
+                foreach (var burden in burdenPair.Value)
                 {
                     if (burden.hiddenBurden)
                     {

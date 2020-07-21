@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace NoStudios.Burdens
 {
-    [CreateAssetMenu(menuName = "Fault/Burden Inventory Template", fileName = "BurdenInventoryTemplate", order = 0)]
+    [CreateAssetMenu(menuName = "Fault/Burdens/Burden Inventory Template", fileName = "BurdenInventoryTemplate", order = 0)]
     public class BurdenInventoryTemplate : DataTemplate, IDataTemplate<BurdenInventory>
     {
         [SerializeField] List<BurdenTemplate> m_BurdensTemplate;

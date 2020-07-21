@@ -4,7 +4,7 @@ using UnityEngine;
 using NoStudios.Burdens;
 using System;
 
-[CreateAssetMenu(fileName = "ValueBurden", menuName = "Burdens/MakeValueBurden", order = 1)]
+[CreateAssetMenu(fileName = "ValueBurden", menuName = "Fault/Burdens/Value Burden", order = 1)]
     public class ValueBurden : Burden
     {
 

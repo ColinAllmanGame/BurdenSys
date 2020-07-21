@@ -1,13 +1,14 @@
 ﻿using NoStudios.Burdens;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "WorldStateSaveData", menuName = "Fault/WorldStateSaveData", order = 1)]
+[CreateAssetMenu(fileName = "WorldStateTemplate", menuName = "Fault/Save Data/World State", order = 1)]
 public sealed class WorldStateTemplate : DataTemplate<WorldState>
 {
 }
 
 
-public class WorldState : ScriptableObject
+[System.Serializable]
+public class WorldState
 {
     public int worldFlag = 0;
 }

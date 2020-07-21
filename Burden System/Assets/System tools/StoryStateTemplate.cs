@@ -2,7 +2,7 @@ using System;
 using NoStudios.Burdens;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "StoryStateSaveData", menuName = "ScriptableObjects/StoryStateSaveData", order = 1)]
+[CreateAssetMenu(fileName = "StoryStateTemplate", menuName = "Fault/Save Data/Story State", order = 1)]
 public class StoryStateTemplate : DataTemplate<StoryState>
 {
 }

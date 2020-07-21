@@ -1,5 +1,8 @@
-﻿using NoStudios.Burdens;
+﻿using System;
+using System.Threading.Tasks;
+using NoStudios.Burdens;
 using UnityEngine;
+using UnityEngine.Events;
 using static NoStudios.Burdens.BurdenTools;
 
 public class CharacterBurdenManager : MonoBehaviour
@@ -11,7 +14,9 @@ public class CharacterBurdenManager : MonoBehaviour
 
     public BurdenSenderType SenderType;
     public BurdenInventory burdenInventory;
-    
+
+    public UnityEvent OnInventorySet = new UnityEvent();
+
     async void Start()
     {
         await m_Container.IsReady;
@@ -21,6 +26,8 @@ public class CharacterBurdenManager : MonoBehaviour
                 + "F" + burdenInventory.Fear(true).ToString()
                 + "R" + burdenInventory.Regret(true).ToString()
                 + "H" + burdenInventory.Hate(true).ToString());
+
+        OnInventorySet.Invoke();
     }
     
     //the character was involved in a burden transaction that was rejected, add reaction flavor, followup actions, etc, here.

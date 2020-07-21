@@ -2,43 +2,56 @@
 using System.Collections.Generic;
 using NoStudios.Burdens;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 [Serializable]
 public class BurdenDictionary
 {
+    static readonly List<BurdenCategory> k_KeysList;
     [SerializeReference] List<KeyValuePair<BurdenCategory, List<Burden>>> m_Data = new List<KeyValuePair<BurdenCategory, List<Burden>>>();
-    [NonSerialized] Dictionary<BurdenCategory, List<Burden>> m_Dictionary = new Dictionary<BurdenCategory, List<Burden>>();
-    
-    public void OnBeforeSerialize()
-    {
-        m_Data.Clear();
-        m_Data.AddRange(m_Dictionary);
-    }
 
-    public void OnAfterDeserialize()
+    // public void OnBeforeSerialize()
+    // {
+    //     m_Data.Clear();
+    //     m_Data.AddRange(m_Dictionary);
+    // }
+    //
+    // public void OnAfterDeserialize()
+    // {
+    //     m_Dictionary.Clear();
+    //     for (var i = 0; i < m_Data.Count; i++)
+    //         m_Data.Add(m_Data[i]);
+    // }
+
+    public List<Burden> this[BurdenCategory key] => Find(key);
+
+    List<Burden> Find(BurdenCategory key)
     {
-        m_Dictionary.Clear();
         for (var i = 0; i < m_Data.Count; i++)
-            m_Data.Add(m_Data[i]);
+        {
+            if (key == m_Data[i].Key)
+                return m_Data[i].Value;
+        }
+
+        return null;
     }
 
-    public List<Burden> this[BurdenCategory key]
+    public bool ContainsKey(BurdenCategory key) => Find(key) != null;
+
+    public void Add(BurdenCategory key, List<Burden> clones)
     {
-        get => m_Dictionary[key];
-        set => m_Dictionary[key] = value;
+        Assert.IsFalse(Find(key) != null);
+        
+        m_Data.Add(new KeyValuePair<BurdenCategory, List<Burden>>(key, clones));
     }
-
-    public bool ContainsKey(BurdenCategory key) => m_Dictionary.ContainsKey(key);
-
-    public void Add(BurdenCategory key, List<Burden> clones) => m_Dictionary.Add(key, clones);
 
     public bool TryGetValue(BurdenCategory key, out List<Burden> value)
     {
-        value = null;
-        return m_Dictionary.TryGetValue(key, out value);
+        value = Find(key);
+        return value != null;
     }
 
-    public Dictionary<BurdenCategory, List<Burden>>.KeyCollection Keys => m_Dictionary.Keys;
+    public IReadOnlyCollection<KeyValuePair<BurdenCategory, List<Burden>>> Pairs => m_Data.AsReadOnly();
 }
 
 

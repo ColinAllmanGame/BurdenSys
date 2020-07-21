@@ -1,15 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Assertions;
+using UnityEngine.Events;
 
 namespace NoStudios.Burdens
 {
-
     public class BurdenVisualizer : MonoBehaviour
     {
-
-        public BurdenInventory subject;
+        public CharacterBurdenManager subject;
 
         public TextMeshProUGUI Val1;
         public TextMeshProUGUI Val2;
@@ -17,10 +19,31 @@ namespace NoStudios.Burdens
         public TextMeshProUGUI Val4;
         public TextMeshProUGUI Val5;
 
-        private void Awake()
+        UnityAction m_OnInventorySet;
+        UnityAction m_SubjectBurdensChanged;
+
+        BurdenVisualizer()
+        {
+            m_OnInventorySet = OnInventorySet;
+            m_SubjectBurdensChanged = SubjectBurdensChanged;
+        }
+        
+        void Awake()
+        {
+            subject.OnInventorySet.AddListener(m_OnInventorySet);
+        }
+
+        void OnDestroy()
+        {
+            // ReSharper disable once DelegateSubtraction
+            subject.OnInventorySet.RemoveListener(m_OnInventorySet);
+        }
+
+        void OnInventorySet()
         {
             //subscribe to target burden inventory events.
-            subject.OnBurdensChanged.AddListener(SubjectBurdensChanged);
+            subject.burdenInventory.OnBurdensChanged.RemoveListener(m_SubjectBurdensChanged);
+            subject.burdenInventory.OnBurdensChanged.AddListener(m_SubjectBurdensChanged);
             SubjectBurdensChanged();
         }
 
@@ -28,27 +51,27 @@ namespace NoStudios.Burdens
         {
             if (Val1 != null)
             {
-                Val1.text = subject.numBurdens.ToString() + " total burdens";
+                Val1.text = subject.burdenInventory.numBurdens.ToString() + " total burdens";
             }
 
             if (Val2 != null)
             {
-                Val2.text = subject.totalFearVisible.ToString() + " fear";
+                Val2.text = subject.burdenInventory.totalFearVisible.ToString() + " fear";
             }
 
             if (Val3 != null)
             {
-                Val3.text = subject.totalTraumaVisible.ToString() + " trauma";
+                Val3.text = subject.burdenInventory.totalTraumaVisible.ToString() + " trauma";
             }
 
             if (Val4 != null)
             {
-                Val4.text = subject.totalHateVisible.ToString() + " Hate";
+                Val4.text = subject.burdenInventory.totalHateVisible.ToString() + " Hate";
             }
 
             if (Val5 != null)
             {
-                Val5.text = subject.totalRegretVisible.ToString() + " Regret";
+                Val5.text = subject.burdenInventory.totalRegretVisible.ToString() + " Regret";
             }
         }
     }
