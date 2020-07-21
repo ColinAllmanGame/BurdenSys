@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 865c0a3a1127430e8ab968b90c46569c, type: 3}
-  m_Name: PlayerStateSaveData
+  m_Script: {fileID: 11500000, guid: ddc408810cfe4150a11f80ffa049a801, type: 3}
+  m_Name: SlaughterInventoryTemplate
   m_EditorClassIdentifier: 
-  playerFlag: 0
+  m_BurdensTemplate:
+  - {fileID: 11400000, guid: 0bfab699e86f7ac4a9a37b71b8c9e53d, type: 2}
+  m_ContainerName: Slaughter
+  m_ReceiverType: 0
+  m_SenderType: 0
+  m_NumBurdens: 0

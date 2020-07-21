@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,10 +7,18 @@ namespace NoStudios.Burdens
     [CreateAssetMenu(menuName = "Fault/Game State Template", fileName = "GameStateTemplate", order = 0)]
     public class GameStateTemplate : DataTemplate, IDataTemplate<GameState>
     {
+        [Serializable]
+        struct CharacterInventoryEntry
+        {
+            public string Name;
+            public BurdenTools.BurdenSenderType CharacterSenderType;
+            public BurdenInventoryTemplate InventoryTemplate;
+        }
+        
         [SerializeField] WorldStateTemplate m_WorldStateTemplate;
         [SerializeField] StoryStateTemplate m_StoryStateTemplate;
         [SerializeField] PlayerStateTemplate m_PlayerStateTemplate;
-        [SerializeField] List<KeyValuePair<BurdenTools.BurdenSenderType, BurdenInventoryTemplate>> m_Inventories;
+        [SerializeField] List<CharacterInventoryEntry> m_Inventories;
 
         public GameState Clone()
         {
@@ -21,10 +30,10 @@ namespace NoStudios.Burdens
             for (var i = 0; i < m_Inventories.Count; i++)
             {
                 var kvp = m_Inventories[i];
-                var sender = kvp.Key;
-                var inventory = kvp.Value;
+                var sender = kvp.CharacterSenderType;
+                var inventoryTemplate = kvp.InventoryTemplate;
                 
-                inventories[i] = new KeyValuePair<BurdenTools.BurdenSenderType, BurdenInventory>(sender, inventory.Clone());
+                inventories[i] = new KeyValuePair<BurdenTools.BurdenSenderType, BurdenInventory>(sender, inventoryTemplate.Clone());
             }
 
             var gameState = new GameState

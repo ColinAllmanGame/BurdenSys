@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ae00a6d704b4d7ca251bfcdf31710ef, type: 3}
+  m_Name: GameStateTemplate
+  m_EditorClassIdentifier: 
+  m_WorldStateTemplate: {fileID: 11400000, guid: a851d85940a841e46aa470dcce786e9d,
+    type: 2}
+  m_StoryStateTemplate: {fileID: 11400000, guid: bec3a8ddc26403b46bd4c5cc5da1bf48,
+    type: 2}
+  m_PlayerStateTemplate: {fileID: 11400000, guid: 4af81feb5958a4142a67fb7cd3e5fd95,
+    type: 2}
+  m_Inventories:
+  - Name: Ravi
+    CharacterSenderType: 4
+    InventoryTemplate: {fileID: 11400000, guid: 1a0a18c5b79acfa49a0b45508d2b2e6e,
+      type: 2}
+  - Name: Slaughter
+    CharacterSenderType: 5
+    InventoryTemplate: {fileID: 11400000, guid: fb7b142f320f03b4faa74dc9d517bdb4,
+      type: 2}

@@ -151,7 +151,7 @@ namespace NoStudios.Burdens
             foreach(var burdenPair in d_heldBurdens.Pairs)
             {
                 //for each burden within that category.
-                foreach (var burden in burdenPair.Value)
+                foreach (var burden in burdenPair.Burdens)
                 {
                     if (burden.hiddenBurden)
                     {

@@ -7,8 +7,20 @@ using UnityEngine.Assertions;
 [Serializable]
 public class BurdenDictionary
 {
-    static readonly List<BurdenCategory> k_KeysList;
-    [SerializeReference] List<KeyValuePair<BurdenCategory, List<Burden>>> m_Data = new List<KeyValuePair<BurdenCategory, List<Burden>>>();
+    [Serializable]
+    public struct Pair
+    {
+        public BurdenCategory Category;
+        public List<Burden> Burdens;
+
+        public Pair(BurdenCategory category, List<Burden> burdens)
+        {
+            Category = category;
+            Burdens = burdens;
+        }
+    }
+    
+    [SerializeReference] List<Pair> m_Data = new List<Pair>();
 
     // public void OnBeforeSerialize()
     // {
@@ -29,8 +41,9 @@ public class BurdenDictionary
     {
         for (var i = 0; i < m_Data.Count; i++)
         {
-            if (key == m_Data[i].Key)
-                return m_Data[i].Value;
+            var pair = m_Data[i];
+            if (key == pair.Category)
+                return pair.Burdens;
         }
 
         return null;
@@ -42,7 +55,7 @@ public class BurdenDictionary
     {
         Assert.IsFalse(Find(key) != null);
         
-        m_Data.Add(new KeyValuePair<BurdenCategory, List<Burden>>(key, clones));
+        m_Data.Add(new Pair(key, clones));
     }
 
     public bool TryGetValue(BurdenCategory key, out List<Burden> value)
@@ -51,7 +64,7 @@ public class BurdenDictionary
         return value != null;
     }
 
-    public IReadOnlyCollection<KeyValuePair<BurdenCategory, List<Burden>>> Pairs => m_Data.AsReadOnly();
+    public IReadOnlyCollection<Pair> Pairs => m_Data.AsReadOnly();
 }
 
 

@@ -7,7 +7,7 @@ using static NoStudios.Burdens.BurdenTools;
 
 public class CharacterBurdenManager : MonoBehaviour
 {
-    [SerializeField] GameStateContainer m_Container;
+    [SerializeField] GameStateContext m_Context;
     
     public bool canReceiveBurdens = true;
     public bool canSendBurdens = true;
@@ -19,9 +19,9 @@ public class CharacterBurdenManager : MonoBehaviour
 
     async void Start()
     {
-        await m_Container.IsReady;
+        await m_Context.IsReady;
         
-        burdenInventory = m_Container.GetInventory(SenderType);
+        burdenInventory = m_Context.GetInventory(SenderType);
         Debug.Log(burdenInventory.ContainerName +" burden inventory active, starting Vals :" + "T"+burdenInventory.Trauma(true).ToString()
                 + "F" + burdenInventory.Fear(true).ToString()
                 + "R" + burdenInventory.Regret(true).ToString()

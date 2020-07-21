@@ -4,16 +4,20 @@ using UnityEngine;
 using NoStudios.Burdens;
 using System;
 
-[CreateAssetMenu(fileName = "ValueBurden", menuName = "Fault/Burdens/Value Burden", order = 1)]
-    public class ValueBurden : Burden
-    {
+[CreateAssetMenu(fileName = "ValueBurdenTemplate", menuName = "Fault/Burdens/Value Burden", order = 1)]
+public sealed class ValueBurdenTemplate : BurdenTemplate<ValueBurden>
+{
+}
 
-        //a value burden clone can be created with inherent burden values.
-        //these values can be referenced and returned.
-        public int traumaValue = 1;
-        public int fearValue = 1;
-        public int regretValue = 1;
-        public int hateValue = 1;
+[Serializable]
+public class ValueBurden : Burden
+{
+    //a value burden clone can be created with inherent burden values.
+    //these values can be referenced and returned.
+    public int traumaValue = 1;
+    public int fearValue = 1;
+    public int regretValue = 1;
+    public int hateValue = 1;
 
 
     public override Burden GenerateClone(string sourceNote = "")
