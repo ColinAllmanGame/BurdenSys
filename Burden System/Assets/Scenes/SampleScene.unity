@@ -2398,6 +2398,7 @@ GameObject:
   - component: {fileID: 1664293479}
   - component: {fileID: 1664293478}
   - component: {fileID: 1664293482}
+  - component: {fileID: 1664293483}
   m_Layer: 5
   m_Name: DebugTools
   m_TagString: Untagged
@@ -2505,6 +2506,23 @@ MonoBehaviour:
   ravi: {fileID: 1684793199}
   slaughter: {fileID: 1859103918}
   categoryToTransfer: 0
+--- !u!114 &1664293483
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664293477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8de9dcc0253448b87dd5d880ba5d354, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FilePath: Saves/TestFile
+  m_Context: {fileID: 11400000, guid: 1880a33033a969a449eeeec2f4252eda, type: 2}
+  m_Template: {fileID: 11400000, guid: 9c2a964b8bd3dd64d9259c2af0b3ada7, type: 2}
+  m_SaveFile: 0
+  m_DeleteFile: 0
 --- !u!1 &1684793198
 GameObject:
   m_ObjectHideFlags: 0
@@ -2534,10 +2552,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ee1cd9ea15ad94fb9579eae1f85bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Container: {fileID: 11400000, guid: 1880a33033a969a449eeeec2f4252eda, type: 2}
+  m_Context: {fileID: 0}
   canReceiveBurdens: 1
   canSendBurdens: 1
   SenderType: 0
+  burdenInventory:
+    ContainerName: defaultName
+    receiverType: 0
+    senderType: 0
+    numBurdens: 0
+    totalTraumaVisible: 0
+    totalFearVisible: 0
+    totalRegretVisible: 0
+    totalHateVisible: 0
   OnInventorySet:
     m_PersistentCalls:
       m_Calls: []
@@ -2936,10 +2963,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ee1cd9ea15ad94fb9579eae1f85bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Container: {fileID: 11400000, guid: 1880a33033a969a449eeeec2f4252eda, type: 2}
+  m_Context: {fileID: 0}
   canReceiveBurdens: 1
   canSendBurdens: 1
   SenderType: 0
+  burdenInventory:
+    ContainerName: defaultName
+    receiverType: 0
+    senderType: 0
+    numBurdens: 0
+    totalTraumaVisible: 0
+    totalFearVisible: 0
+    totalRegretVisible: 0
+    totalHateVisible: 0
   OnInventorySet:
     m_PersistentCalls:
       m_Calls: []

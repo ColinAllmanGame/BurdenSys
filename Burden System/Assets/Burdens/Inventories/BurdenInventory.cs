@@ -7,13 +7,14 @@ using System;
 namespace NoStudios.Burdens
 {
     // [CreateAssetMenu(fileName = "DefaultBurdenContainer", menuName = "ScriptableObjects/MakeBurdenContainer", order = 1)]
+    [Serializable]
     public class BurdenInventory/* : ScriptableObject*/
     {
         public string ContainerName = "defaultName";      
         public BurdenReceiverType receiverType;
         public BurdenSenderType senderType;
 
-        public UnityEvent OnBurdensChanged;
+        [NonSerialized] public UnityEvent OnBurdensChanged = new UnityEvent();
 
         public int numBurdens = 0; //some burdens should be applied to a non-counted list. for hotfixable adjustments.
 
