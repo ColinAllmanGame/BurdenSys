@@ -2505,7 +2505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ravi: {fileID: 1684793199}
   slaughter: {fileID: 1859103918}
-  categoryToTransfer: 0
+  categoryToTransfer: -7
 --- !u!114 &1664293483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2570,6 +2570,8 @@ MonoBehaviour:
   OnInventorySet:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 1
 --- !u!4 &1684793200
 Transform:
   m_ObjectHideFlags: 0
@@ -2983,6 +2985,8 @@ MonoBehaviour:
   OnInventorySet:
     m_PersistentCalls:
       m_Calls: []
+  references:
+    version: 1
 --- !u!4 &1859103919
 Transform:
   m_ObjectHideFlags: 0
