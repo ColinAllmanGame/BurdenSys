@@ -53,7 +53,7 @@ public class CharacterBurdenManager : MonoBehaviour
 
     void BurdenSendFail(Burden burden)
     {
-        Debug.LogError(burdenInventory.ContainerName + " was requested to send a " + burden.parentBurden.category.ToString() + ", but is flagged unable to do so. This is post validate, something has gone wrong.");
+        Debug.LogError(burdenInventory.ContainerName + " was requested to send a " + burden.category.ToString() + ", but is flagged unable to do so. This is post validate, something has gone wrong.");
     }
 
     public bool TrySendBurden(Burden burden, CharacterBurdenManager target)

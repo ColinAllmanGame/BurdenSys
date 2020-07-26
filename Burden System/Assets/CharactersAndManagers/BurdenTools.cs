@@ -216,7 +216,7 @@ namespace NoStudios.Burdens
         public static Burden RaviBurdenReceiver(Burden burden, BurdenInventory sender, BurdenInventory receiver)
         {
             Debug.Log("Burden modified by Ravi's receiver");
-            burden.parentBurden.AdjustFear(-1);
+            burden.AdjustFear(-1);
             return burden;
         }
 

@@ -58,14 +58,14 @@ namespace NoStudios.Burdens
     [System.Serializable]
     public abstract class Burden
     {
-        public static T CloneFrom<T>(T parent, string sourceNote = null)
+        public static T CloneFrom<T>(T source, string sourceNote = null)
             where T : Burden, new()
         {
-            Assert.IsNotNull(parent);
+            Assert.IsNotNull(source);
             
-            var json = JsonUtility.ToJson(parent);
+            var json = JsonUtility.ToJson(source);
             var clone = JsonUtility.FromJson<T>(json);
-            clone.parentBurden = parent;
+            // clone.parentBurden = parent;
             clone.SourceNote = sourceNote;
 
             return clone;
@@ -74,7 +74,7 @@ namespace NoStudios.Burdens
         public BurdenCategory category;
 
         public Guid TemplateId = Guid.Empty;
-        public Burden parentBurden = null;
+        // public Burden parentBurden = null;
         public string SourceNote = null;
         public CloneDuplicateRule duplicateRule = CloneDuplicateRule.none;
 
@@ -213,12 +213,6 @@ namespace NoStudios.Burdens
             //burden is being removed by something nice.
         }
 
-    }
-
-    public static class BurdenUtility<T>
-        where T : Burden, new()
-    {
-        
     }
 }
 

@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 using NoStudios.Burdens;
+using UnityEngine.PlayerLoop;
 
 public class BurdenDebugTools : MonoBehaviour
 {
     public CharacterBurdenManager ravi;
     public CharacterBurdenManager slaughter;
 
-    public Burden burden;
+    public BurdenTemplate burdenTemplate;
     public void SendBurdenToRavi()
     {
-        ravi.AddBurdenWorldSource(burden.GenerateClone(),null,ravi);
+        ravi.AddBurdenWorldSource(burdenTemplate.Clone(),null,ravi);
+        UpdateRavi();
     }
     public void SendBurdenToSlaughter()
     {
-        slaughter.AddBurdenWorldSource(burden.GenerateClone(), null, slaughter);
+        slaughter.AddBurdenWorldSource(burdenTemplate.Clone(), null, slaughter);
+        UpdateSlaughter();
     }
 
     public void DissolveRaviBurden()

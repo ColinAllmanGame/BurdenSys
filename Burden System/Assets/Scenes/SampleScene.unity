@@ -2505,6 +2505,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ravi: {fileID: 1684793199}
   slaughter: {fileID: 1859103918}
+  burdenTemplate: {fileID: 11400000, guid: 761d1046d07f6fa4e8e624a6ba418ab6, type: 2}
   categoryToTransfer: -7
 --- !u!114 &1664293483
 MonoBehaviour:

@@ -234,11 +234,11 @@ namespace NoStudios.Burdens
             //Lets the burden's ingest behavior act, with reference to the sender and receiver so the burden can do things to them.
             if (sender != null)
             {
-                burden.parentBurden.BurdenIngestAction(sender.burdenInventory, this);
+                burden.BurdenIngestAction(sender.burdenInventory, this);
             }
             else
             {
-                burden.parentBurden.BurdenIngestAction(null, this);
+                burden.BurdenIngestAction(null, this);
             }
             return burden;
         }
@@ -257,15 +257,15 @@ namespace NoStudios.Burdens
                 Burden modifiedBurden = senderOperation(burden, this, receiver);
 
                 //tint by parentburden's pre-send action while still in sender inventory
-                modifiedBurden.parentBurden.BurdenSendAction(burden,sender, receiver);
+                modifiedBurden.BurdenSendAction(burden,sender, receiver);
 
                 d_heldBurdens[modifiedBurden.category].Remove(modifiedBurden);
             
-                modifiedBurden.parentBurden.OwnerChangeNotice(burden, sender, false);
+                modifiedBurden.OwnerChangeNotice(burden, sender, false);
 
 
                 BurdensCollectionChanged();
-                burden.parentBurden.BurdenPostSend(burden, this);
+                burden.BurdenPostSend(burden, this);
                 return true;
         }
 
@@ -275,7 +275,7 @@ namespace NoStudios.Burdens
             {
                 if(!isSilent)
                 {
-                    burden.parentBurden.BurdenPreDissolve(this);
+                    burden.BurdenPreDissolve(this);
                 }
                 d_heldBurdens[burden.category].Remove(burden);
 
@@ -283,7 +283,7 @@ namespace NoStudios.Burdens
 
                 if (!isSilent)
                 {
-                    burden.parentBurden.BurdenPostDissolve(this);
+                    burden.BurdenPostDissolve(this);
                 }
             }
             else
