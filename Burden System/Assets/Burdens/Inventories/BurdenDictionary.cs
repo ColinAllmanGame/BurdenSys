@@ -8,10 +8,10 @@ using UnityEngine.Assertions;
 public class BurdenDictionary
 {
     [Serializable]
-    public struct Pair
+    public class Pair
     {
         public BurdenCategory Category;
-        public List<Burden> Burdens;
+        [SerializeReference] public List<Burden> Burdens;
 
         public Pair(BurdenCategory category, List<Burden> burdens)
         {
@@ -20,20 +20,7 @@ public class BurdenDictionary
         }
     }
     
-    [SerializeReference] List<Pair> m_Data = new List<Pair>();
-
-    // public void OnBeforeSerialize()
-    // {
-    //     m_Data.Clear();
-    //     m_Data.AddRange(m_Dictionary);
-    // }
-    //
-    // public void OnAfterDeserialize()
-    // {
-    //     m_Dictionary.Clear();
-    //     for (var i = 0; i < m_Data.Count; i++)
-    //         m_Data.Add(m_Data[i]);
-    // }
+    [SerializeField] List<Pair> m_Data = new List<Pair>();
 
     public List<Burden> this[BurdenCategory key] => Find(key);
 

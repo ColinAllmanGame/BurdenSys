@@ -55,7 +55,7 @@ namespace NoStudios.Burdens
     }
 
     // [CreateAssetMenu(fileName = "DefaultBurden", menuName = "Burdens/MakeDefaultBurden", order = 1)]
-    // [System.Serializable]
+    [System.Serializable]
     public abstract class Burden
     {
         public static T CloneFrom<T>(T parent, string sourceNote = null)

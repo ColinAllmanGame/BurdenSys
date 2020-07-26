@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_BurdensTemplate:
   - {fileID: 11400000, guid: 0bfab699e86f7ac4a9a37b71b8c9e53d, type: 2}
+  - {fileID: 11400000, guid: e29f5176956c5cb438998b9c4b089f0e, type: 2}
   m_ContainerName: Ravi
   m_ReceiverType: 0
   m_SenderType: 0

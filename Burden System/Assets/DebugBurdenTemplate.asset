@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9157c52749574e7b911bf9d316ec50c8, type: 3}
+  m_Name: DebugBurdenTemplate
+  m_EditorClassIdentifier: 
+  m_SourceNote: 
+  m_Burden:
+    category: -7
+    SourceNote: 
+    duplicateRule: 0
+    hiddenBurden: 0
+    Permanent: 0
+    preventDuplicates: 0
+    canBeShared: 1
+    WrappedBurden:
+      id: 0
+  WrappedBurden: {fileID: 11400000, guid: 8bf59000608ef10499c36aa466a85efb, type: 2}
+  references:
+    version: 1
+    00000000:
+      type: {class: , ns: , asm: }

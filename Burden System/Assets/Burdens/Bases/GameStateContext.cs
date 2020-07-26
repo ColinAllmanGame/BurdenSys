@@ -1,6 +1,8 @@
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -9,29 +11,54 @@ namespace NoStudios.Burdens
     [CreateAssetMenu(fileName = "GameStateContext", menuName = "Fault/Game State Context", order = 0)]
     public class GameStateContext : ScriptableObject
     {
-        GameState m_GameState = null;
+        GameState m_GameState;
+        Task m_IsReady;
+        bool m_Loaded;
 
-        bool m_HasLoadedSuccessfully;
+        public Task IsReady
+        {
+            get
+            {
+                if (!Application.isPlaying)
+                    return null;
+                
+                InitIsReady();
 
-        Task m_IsReady = null;
+                return m_IsReady;
+            }
+        }
 
-        public Task IsReady => m_IsReady;
+        void InitIsReady()
+        {
+            if (m_IsReady != null)
+                return;
+
+            m_IsReady = Task.Run(WaitOnLoaded);
+        }
+
+        async Task WaitOnLoaded()
+        {
+            while (!m_Loaded)
+            {
+                await Task.Delay(100);
+            }
+        }
 
         void OnEnable()
         {
-            m_IsReady = Task.Run(
-                async () =>
-                {
-                    while (!m_HasLoadedSuccessfully)
-                    {
-                        await Task.Delay(100);
-                    }
-                });
+#if UNITY_EDITOR
+            if (!EditorApplication.isPlayingOrWillChangePlaymode)
+                return;
+#endif
+            if(m_IsReady == null)
+                InitIsReady();
         }
 
         void OnDisable()
         {
-            m_IsReady.Dispose();
+            m_IsReady?.Dispose();
+            m_GameState = null;
+            m_Loaded = false;
             m_IsReady = null;
         }
 
@@ -40,18 +67,17 @@ namespace NoStudios.Burdens
             Assert.IsFalse(string.IsNullOrEmpty(filePath));
             Assert.IsTrue(File.Exists(filePath));
             
-            GameState gameState = null;
             await Task.Run(
                 () =>
                 {
                     var json = File.ReadAllText(filePath, Encoding.UTF8);
-                    gameState = JsonUtility.FromJson<GameState>(json);
+                    m_GameState = JsonUtility.FromJson<GameState>(json);
                 });
 
-            m_GameState = gameState;
-            m_HasLoadedSuccessfully = true;
+            m_Loaded = true;
         }
-        public async Task Save(string filePath)
+
+        async Task Save(string filePath, GameState gameState)
         {
             Assert.IsFalse(string.IsNullOrEmpty(filePath));
             Assert.IsNotNull(m_GameState);
@@ -60,8 +86,6 @@ namespace NoStudios.Burdens
             Assert.IsFalse(string.IsNullOrEmpty(directory));
             Directory.CreateDirectory(directory);
 
-            var gameState = m_GameState;
-
             await Task.Run(
                 () =>
                 {
@@ -69,24 +93,26 @@ namespace NoStudios.Burdens
                     File.WriteAllText(filePath, json, Encoding.UTF8);
                 });
         }
+        
+        public async Task Save(string filePath)
+        {
+            Assert.IsNotNull(m_GameState);
+            await Save(filePath, m_GameState);
+        }
 
         public async Task Create(GameStateTemplate template, string filePath)
         {
             Assert.IsNotNull(template);
             Assert.IsFalse(string.IsNullOrEmpty(filePath));
-
-            GameState gameState = null;
-
             await Task.Run(
                 () =>
                 {
-                    gameState = template.Clone();
+                    m_GameState = template.Clone();
                 });
-
-            m_GameState = gameState;
             
-            await Save(filePath);
-            m_HasLoadedSuccessfully = true;
+            await Save(filePath, m_GameState);
+
+            m_Loaded = true;
         }
 
         public async Task Delete(string filePath)

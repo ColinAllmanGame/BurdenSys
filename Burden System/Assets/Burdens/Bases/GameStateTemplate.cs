@@ -26,14 +26,14 @@ namespace NoStudios.Burdens
             var story = m_StoryStateTemplate.Clone();
             var player = m_PlayerStateTemplate.Clone();
 
-            var inventories = new KeyValuePair<BurdenTools.BurdenSenderType, BurdenInventory>[m_Inventories.Count];
+            var inventories = new GameState.InventoryEntry[m_Inventories.Count];
             for (var i = 0; i < m_Inventories.Count; i++)
             {
                 var kvp = m_Inventories[i];
                 var sender = kvp.CharacterSenderType;
                 var inventoryTemplate = kvp.InventoryTemplate;
                 
-                inventories[i] = new KeyValuePair<BurdenTools.BurdenSenderType, BurdenInventory>(sender, inventoryTemplate.Clone());
+                inventories[i] = new GameState.InventoryEntry(sender, inventoryTemplate.Clone());
             }
 
             var gameState = new GameState

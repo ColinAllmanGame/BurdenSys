@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511d44e3c7f3c7d49b0968445944d7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subject: {fileID: 0}
+  subject: {fileID: 1684793199}
   Val1: {fileID: 1811876455}
   Val2: {fileID: 1870168737}
   Val3: {fileID: 1194131367}
@@ -1646,7 +1646,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 511d44e3c7f3c7d49b0968445944d7ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  subject: {fileID: 0}
+  subject: {fileID: 1859103918}
   Val1: {fileID: 1940394958}
   Val2: {fileID: 88872529}
   Val3: {fileID: 32630580}
@@ -2552,10 +2552,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ee1cd9ea15ad94fb9579eae1f85bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Context: {fileID: 0}
+  m_Context: {fileID: 11400000, guid: 1880a33033a969a449eeeec2f4252eda, type: 2}
   canReceiveBurdens: 1
   canSendBurdens: 1
-  SenderType: 0
+  SenderType: 4
   burdenInventory:
     ContainerName: defaultName
     receiverType: 0
@@ -2565,6 +2565,8 @@ MonoBehaviour:
     totalFearVisible: 0
     totalRegretVisible: 0
     totalHateVisible: 0
+    d_heldBurdens:
+      m_Data: []
   OnInventorySet:
     m_PersistentCalls:
       m_Calls: []
@@ -2963,10 +2965,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69ee1cd9ea15ad94fb9579eae1f85bc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Context: {fileID: 0}
+  m_Context: {fileID: 11400000, guid: 1880a33033a969a449eeeec2f4252eda, type: 2}
   canReceiveBurdens: 1
   canSendBurdens: 1
-  SenderType: 0
+  SenderType: 5
   burdenInventory:
     ContainerName: defaultName
     receiverType: 0
@@ -2976,6 +2978,8 @@ MonoBehaviour:
     totalFearVisible: 0
     totalRegretVisible: 0
     totalHateVisible: 0
+    d_heldBurdens:
+      m_Data: []
   OnInventorySet:
     m_PersistentCalls:
       m_Calls: []

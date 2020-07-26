@@ -21,7 +21,7 @@ namespace NoStudios.Burdens
         Func<string, Task> m_Delete;
         Func<string, Task> m_Save;
 
-        string FullPath => Path.Combine(Application.persistentDataPath, m_FilePath);
+        string FullPath => $"{Path.Combine(Application.persistentDataPath, m_FilePath)}.json";
 
         void Awake()
         {
@@ -32,10 +32,7 @@ namespace NoStudios.Burdens
             PerformFileOperation(!File.Exists(fullPath) ? m_Context.Create(m_Template, fullPath) : m_Context.Load(fullPath));
         }
         
-        void OnDestroy()
-        {
-            m_FileOperation?.Dispose();
-        }
+        void OnDestroy() => m_FileOperation?.Dispose();
 
         void Update()
         {

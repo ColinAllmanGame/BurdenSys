@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using TMPro;
-using UnityEngine.Assertions;
 using UnityEngine.Events;
 
 namespace NoStudios.Burdens
@@ -30,6 +25,9 @@ namespace NoStudios.Burdens
         
         void Awake()
         {
+            if(subject == null)
+                gameObject.SetActive(false);
+            
             subject.OnInventorySet.AddListener(m_OnInventorySet);
         }
 
