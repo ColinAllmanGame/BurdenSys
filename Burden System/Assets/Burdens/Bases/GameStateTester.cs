@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Burdens.BehaviorVariants;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -12,8 +13,8 @@ namespace NoStudios.Burdens
     {
         [SerializeField] string m_FilePath = "Saves/TestFile";
         
-        [SerializeField] GameStateContext m_Context;
-        [SerializeField] GameStateTemplate m_Template;
+        [SerializeField] GameStateContext m_Context; // SO
+        [SerializeField] GameStateTemplate m_Template; // SO
         [SerializeField] bool m_SaveFile;
         [SerializeField] bool m_DeleteFile;
 
@@ -55,9 +56,9 @@ namespace NoStudios.Burdens
             m_FileOperation = null;
         }
 
-        async void PerformFileOperation(Task task)
+        async void PerformFileOperation(Task task, Action<Task> action = null)
         {
-            await FileOperationTask(task);
+            await FileOperationTask(task); // .ContinueWith(t => Debug.Log("Performed Operation"));
             m_SaveFile = false;
             m_DeleteFile = false;
         }

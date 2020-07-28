@@ -117,6 +117,7 @@ namespace NoStudios.Burdens
 
         public async Task Delete(string filePath)
         {
+            // only touches state on disk, not in memory
             Assert.IsFalse(string.IsNullOrEmpty(filePath));
 
             await Task.Run(() => File.Delete(filePath));
